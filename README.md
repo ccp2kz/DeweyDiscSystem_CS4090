@@ -53,25 +53,40 @@ The **Dewey Disc System** is an intelligent disc golf assistant designed to help
 Contains all design documents, including use case diagrams, sequence diagrams, and system overviews.
 
 /designs/
+
 ├── usecase_diagrams/ # Use case diagrams in Mermaid
+
 │ ├── usecase_add_disc.md
+
 │ ├── usecase_view_recommendation.md
+
 │ ├── usecase_shot_visualization.md
+
 │ └── usecase_secure_login.md
+
 ├── sequence_diagrams/ # Sequence diagrams in Mermaid
+
 │ ├── sequence_add_disc.md
+
 │ ├── sequence_view_recommendation.md
+
 │ ├── sequence_shot_visualization.md
+
 │ └── sequence_secure_login.md
+
 ├── complete_system/ # Full-system overview and architecture placeholders
+
 │ ├── full_system_usecase.md
+
 │ └── architecture_placeholder.md
 
 ### /App/
 Contains the application codebase, organized into backend and frontend.
 
 /App/
+
 ├── backend/ # Server-side logic, database, and APIs
+
 └── frontend/ # User interface, web/mobile views, and interactions
 
 ## Links
