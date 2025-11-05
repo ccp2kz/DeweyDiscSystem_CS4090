@@ -23,5 +23,5 @@ sequenceDiagram
     end
 ```
 
-##Description
+## Description
 This sequence diagram shows the interaction flow for adding a disc to a user's virtual bag. It includes searching the database, handling results, adding a selected disc, and confirming the addition. Error handling is included if no discs match the search.
