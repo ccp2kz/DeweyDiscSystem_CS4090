@@ -1,8 +1,3 @@
-"""
-Dewey Disc System - FastAPI Application
-Enhanced with proper architecture, MongoDB, and OOP patterns
-"""
-
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, EmailStr
@@ -21,9 +16,7 @@ from services.recommendation_engine import RecommendationEngine
 from models.user import User as UserModel
 from models.disc import Disc as DiscModel
 
-# -----------------------
 # Data Models
-# -----------------------
 class User(BaseModel):
     id: str
     username: str
@@ -65,9 +58,7 @@ class RecommendationRequest(BaseModel):
     wind_direction: int
     strategy: str = "moderate"  # conservative, moderate, aggressive
 
-# -----------------------
 # Mock Databases
-# -----------------------
 users: List[User] = []
 bags: List[Bag] = []
 courses = [
@@ -81,9 +72,7 @@ discs = [
     Disc(id="3", name="Innova Aviar", speed=3, glide=3, turn=0, fade=1),
 ]
 
-# -----------------------
 # Routes
-# -----------------------
 @app.post("/register")
 def register_user(username: str, email: str, password: str):
     for u in users:
@@ -126,7 +115,6 @@ def view_bag(user_id: str):
 
 @app.post("/recommend")
 def recommend_disc(req: RecommendationRequest):
-    # Placeholder logic
     if req.distance_to_pin > 250:
         disc = discs[0]
     elif 80 < req.distance_to_pin <= 250:
