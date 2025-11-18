@@ -1,21 +1,12 @@
-"""
-Configuration Management (Singleton Pattern)
-Manages application settings and environment variables
-"""
-
 import os
 from typing import Optional
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+#load environment variables
 load_dotenv()
 
 
 class Config:
-    """
-    Configuration class using Singleton pattern
-    Ensures only one instance exists throughout the application
-    """
     _instance: Optional['Config'] = None
 
     def __new__(cls):
