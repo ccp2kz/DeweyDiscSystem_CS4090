@@ -1,8 +1,3 @@
-"""
-Security Utilities
-Password hashing and JWT token management
-"""
-
 import bcrypt
 import jwt
 from datetime import datetime, timedelta
@@ -11,19 +6,8 @@ from config import config
 
 
 class SecurityManager:
-    """Handles password hashing and JWT token operations"""
-
     @staticmethod
     def hash_password(password: str) -> str:
-        """
-        Hash a password using bcrypt
-        
-        Args:
-            password: Plain text password
-            
-        Returns:
-            Hashed password string
-        """
         password_bytes = password.encode('utf-8')
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(password_bytes, salt)
@@ -31,32 +15,12 @@ class SecurityManager:
 
     @staticmethod
     def verify_password(password: str, hashed_password: str) -> bool:
-        """
-        Verify a password against its hash
-        
-        Args:
-            password: Plain text password to verify
-            hashed_password: Stored hashed password
-            
-        Returns:
-            True if password matches, False otherwise
-        """
         password_bytes = password.encode('utf-8')
         hashed_bytes = hashed_password.encode('utf-8')
         return bcrypt.checkpw(password_bytes, hashed_bytes)
 
     @staticmethod
     def generate_token(user_id: str, email: str) -> str:
-        """
-        Generate a JWT token for authenticated user
-        
-        Args:
-            user_id: User's database ID
-            email: User's email address
-            
-        Returns:
-            JWT token string
-        """
         payload = {
             'user_id': str(user_id),
             'email': email,
@@ -69,15 +33,6 @@ class SecurityManager:
 
     @staticmethod
     def verify_token(token: str) -> Optional[Dict]:
-        """
-        Verify and decode a JWT token
-        
-        Args:
-            token: JWT token string
-            
-        Returns:
-            Decoded payload if valid, None if invalid
-        """
         try:
             payload = jwt.decode(token, config.SECRET_KEY, algorithms=['HS256'])
             return payload
@@ -88,15 +43,6 @@ class SecurityManager:
 
     @staticmethod
     def extract_user_id_from_token(token: str) -> Optional[str]:
-        """
-        Extract user ID from token
-        
-        Args:
-            token: JWT token string
-            
-        Returns:
-            User ID if valid token, None otherwise
-        """
         payload = SecurityManager.verify_token(token)
         if payload:
             return payload.get('user_id')
@@ -105,17 +51,14 @@ class SecurityManager:
 
 # Convenience functions
 def hash_password(password: str) -> str:
-    """Hash a password"""
     return SecurityManager.hash_password(password)
 
 
 def verify_password(password: str, hashed_password: str) -> bool:
-    """Verify a password"""
     return SecurityManager.verify_password(password, hashed_password)
 
 
 def generate_token(user_id: str, email: str) -> str:
-    """Generate JWT token"""
     return SecurityManager.generate_token(user_id, email)
 
 
