@@ -1,9 +1,25 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+"""
+Dewey Disc System - FastAPI Application
+Enhanced with proper architecture, MongoDB, and OOP patterns
+"""
+
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 from uuid import uuid4
 
-app = FastAPI(title="Dewey Disc System API")
+# Import our new architecture components
+from config import config
+from utils.database import db_connection
+from utils.security import hash_password, verify_password, generate_token, verify_token
+from repositories.user_repository import UserRepository
+from repositories.disc_repository import DiscRepository
+from repositories.bag_repository import BagRepository
+from services.authentication_service import AuthenticationService
+from services.recommendation_engine import RecommendationEngine
+from models.user import User as UserModel
+from models.disc import Disc as DiscModel
 
 # -----------------------
 # Data Models
@@ -11,16 +27,26 @@ app = FastAPI(title="Dewey Disc System API")
 class User(BaseModel):
     id: str
     username: str
-    email: str
+    email: EmailStr
+    password: str
+    first_name: str
+    last_name: str
+    skill_level: str = "beginner"
+
+class UserLoginRequest(BaseModel):
+    email: EmailStr
     password: str
 
 class Disc(BaseModel):
     id: str
     name: str
+    manufacturer: str
+    type: str
     speed: float
     glide: float
     turn: float
     fade: float
+    stability: str
 
 class Bag(BaseModel):
     user_id: str
@@ -36,8 +62,8 @@ class RecommendationRequest(BaseModel):
     course_id: str
     distance_to_pin: float
     wind_speed: float
-    wind_direction: str
-    obstacles: Optional[str] = None
+    wind_direction: int
+    strategy: str = "moderate"  # conservative, moderate, aggressive
 
 # -----------------------
 # Mock Databases
