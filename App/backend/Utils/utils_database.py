@@ -1,8 +1,3 @@
-"""
-Database Connection Manager (Singleton Pattern)
-Manages MongoDB connection with single instance
-"""
-
 from typing import Optional
 from pymongo import MongoClient
 from pymongo.database import Database
@@ -15,10 +10,6 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseConnection:
-    """
-    Singleton class for MongoDB database connection
-    Ensures only one connection instance exists
-    """
     _instance: Optional['DatabaseConnection'] = None
     _client: Optional[MongoClient] = None
     _database: Optional[Database] = None
