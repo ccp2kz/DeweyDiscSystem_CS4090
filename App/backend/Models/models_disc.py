@@ -1,18 +1,8 @@
-"""
-Disc Model
-Represents a disc golf disc in the system
-"""
-
 from typing import Optional, Dict, List
 from bson import ObjectId
 
 
 class Disc:
-    """
-    Disc domain model
-    Represents a disc golf disc with flight characteristics
-    """
-
     def __init__(
         self,
         name: str,
@@ -31,26 +21,6 @@ class Disc:
         image_url: Optional[str] = None,
         avg_distance: Optional[Dict[str, int]] = None
     ):
-        """
-        Initialize Disc object
-        
-        Args:
-            name: Disc name (e.g., "Buzzz")
-            manufacturer: Manufacturer name (e.g., "Discraft")
-            disc_type: putter, midrange, fairway_driver, distance_driver
-            speed: Speed rating (1-14)
-            glide: Glide rating (1-7)
-            turn: Turn rating (-5 to 1)
-            fade: Fade rating (0-5)
-            stability: overstable, stable, or understable
-            disc_id: MongoDB ObjectId
-            plastic: Plastic type (e.g., "Star", "ESP")
-            pdga_approved: PDGA approval status
-            weight_range: Min/max weight dict
-            best_for: List of use cases
-            image_url: URL to disc image
-            avg_distance: Average distances by skill level
-        """
         self._id = disc_id
         self._name = name
         self._manufacturer = manufacturer
@@ -128,52 +98,18 @@ class Disc:
 
     # Business Logic Methods
     def get_expected_distance(self, skill_level: str) -> int:
-        """
-        Get expected distance for a skill level
-        
-        Args:
-            skill_level: beginner, intermediate, advanced, or pro
-            
-        Returns:
-            Expected distance in feet
-        """
         return self._avg_distance.get(skill_level, 0)
 
     def is_suitable_for_beginner(self) -> bool:
-        """Check if disc is suitable for beginners"""
         return self._speed <= 7 and self._stability in ['stable', 'understable']
 
     def calculate_high_speed_stability(self) -> float:
-        """
-        Calculate high-speed stability number (HSS)
-        Positive = overstable, Negative = understable
-        
-        Returns:
-            HSS value
-        """
         return self._turn
 
     def calculate_low_speed_stability(self) -> float:
-        """
-        Calculate low-speed stability number (LSS)
-        Higher = more overstable
-        
-        Returns:
-            LSS value
-        """
         return self._fade
 
     def predict_flight_path(self, wind_speed: float = 0, wind_direction: int = 0) -> str:
-        """
-        Predict basic flight path description
-        
-        Args:
-            wind_speed: Wind speed in mph
-            wind_direction: Wind direction in degrees
-            
-        Returns:
-            Flight path description
-        """
         if self._stability == 'overstable':
             path = "Starts straight, fades hard left (RHBH)"
         elif self._stability == 'understable':
@@ -187,15 +123,6 @@ class Disc:
         return path
 
     def compare_to(self, other_disc: 'Disc') -> Dict:
-        """
-        Compare this disc to another disc
-        
-        Args:
-            other_disc: Another Disc object
-            
-        Returns:
-            Comparison dictionary
-        """
         return {
             'speed_diff': self._speed - other_disc.speed,
             'glide_diff': self._glide - other_disc.glide,
@@ -205,7 +132,6 @@ class Disc:
         }
 
     def to_dict(self) -> Dict:
-        """Convert Disc object to dictionary"""
         disc_dict = {
             'name': self._name,
             'manufacturer': self._manufacturer,
@@ -230,7 +156,6 @@ class Disc:
 
     @classmethod
     def from_dict(cls, data: Dict) -> 'Disc':
-        """Create Disc object from dictionary"""
         return cls(
             disc_id=data.get('_id'),
             name=data['name'],
@@ -256,7 +181,6 @@ class Disc:
         return f"{self._manufacturer} {self._name} [{self.flight_numbers}]"
 
     def __eq__(self, other):
-        """Check disc equality based on name and manufacturer"""
         if not isinstance(other, Disc):
             return False
         return self._name == other.name and self._manufacturer == other.manufacturer
