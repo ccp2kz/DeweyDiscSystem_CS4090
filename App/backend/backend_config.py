@@ -1,8 +1,3 @@
-"""
-Configuration Management (Singleton Pattern)
-Manages application settings and environment variables
-"""
-
 import os
 from typing import Optional
 from dotenv import load_dotenv
@@ -12,10 +7,6 @@ load_dotenv()
 
 
 class Config:
-    """
-    Configuration class using Singleton pattern
-    Ensures only one instance exists throughout the application
-    """
     _instance: Optional['Config'] = None
 
     def __new__(cls):
@@ -51,6 +42,10 @@ class Config:
         # Disc Recommendation Settings
         self.DEFAULT_WIND_SENSITIVITY = os.getenv('DEFAULT_WIND_SENSITIVITY', 'medium')
         self.DEFAULT_STRATEGY = os.getenv('DEFAULT_STRATEGY', 'moderate')
+
+        # Kafka Configuration
+        self.KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')
+        self.KAFKA_TOPIC_BAG_UPDATES = 'bag-updates'
         
         self._initialized = True
 
