@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger("DeweyWorker")
 
 def start_worker():
-    # 1. Connect to MongoDB (The Read Database)
+    #1.Connect to MongoDB (The Read Database)
     try:
         mongo_client = MongoClient(config.MONGO_URI)
         db = mongo_client[config.DATABASE_NAME]
@@ -24,7 +24,7 @@ def start_worker():
         logger.error(f"Failed to connect to MongoDB: {e}")
         return
 
-    # 2. Connect to Kafka
+    #2.Connect to Kafka
     try:
         consumer = KafkaConsumer(
             config.KAFKA_TOPIC_BAG_UPDATES,
@@ -39,7 +39,7 @@ def start_worker():
         logger.error(f"Failed to connect to Kafka: {e}")
         return
 
-    # 3. Process Messages Loop
+    #3.Process Messages Loop
     for message in consumer:
         try:
             event = message.value
