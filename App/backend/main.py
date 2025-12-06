@@ -76,9 +76,7 @@ class RecommendationRequest(BaseModel):
     wind_direction: int
     strategy: str = "moderate"  # conservative, moderate, aggressive
 
-# -----------------------
 # Mock Data (For validation)
-# -----------------------
 # In a real CQRS app, the Command side would check a 'Write DB' (e.g., SQL)
 courses = [
     Course(id="1", name="Water Works Park", location="Kansas City, MO"),
